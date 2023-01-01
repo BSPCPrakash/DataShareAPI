@@ -66,15 +66,8 @@ app.post("/login", async (req, res) => {
     console.log(username);
     const verifyData = await userEntry.find({ username: username });
     console.log(verifyData);
-    const salt = await bcrypt.genSalt(10);
-    const encrypt_password = await bcrypt.hashSync(
-      password,
-      salt,
-      (err, hash) => {
-        console.log(hash);
-        console.log(err);
-      }
-    );
+    
+    const encrypt_password = await bcrypt.hash(password,10)
     console.log(encrypt_password);
     if (encrypt_password == verifyData[0].password) {
       console.log("Checking");
@@ -111,15 +104,8 @@ app.post("/register", async (req, res) => {
         message: "User Already registered",
       });
     } else {
-      const salt = await bcrypt.genSaltSync(10);
-      const encrypt_password = await bcrypt.hashSync(
-        password,
-        salt,
-        (err, hash) => {
-          console.log(hash);
-          console.log(err);
-        }
-      );
+      
+      const encrypt_password = await bcrypt.hash(password,10);
       console.log(encrypt_password);
       const data = {
         username: username,
