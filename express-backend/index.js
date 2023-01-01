@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const express = require("express");
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // Create app instance
 const app = express();
@@ -68,15 +68,7 @@ app.post("/login", async (req, res) => {
     console.log(username);
     const verifyData = await userEntry.find({ username: username });
     console.log(verifyData);
-    
-    const encrypt_password = await bcrypt.hash(password,10)
-    console.log(encrypt_password);
-    if (encrypt_password == verifyData[0].password) {
-      console.log("Checking");
-    }
-    const verification = await bcrypt.compare(password, verifyData[0].password);
-    console.log(verification);
-    if (verification == true) {
+    if (verifyData[0].password==password) {
       msg = "Correct";
     } else {
       msg = "Not Correct";
@@ -106,12 +98,9 @@ app.post("/register", async (req, res) => {
         message: "User Already registered",
       });
     } else {
-      
-      const encrypt_password = await bcrypt.hash(password,10);
-      console.log(encrypt_password);
       const data = {
         username: username,
-        password: encrypt_password,
+        password: password,
         email: email,
         device_id: device_id,
       };
