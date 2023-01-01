@@ -21,8 +21,8 @@ const entry = mongoose.Schema({
   device_id: String,
 });
 const access = new aws.Credentials({
-  accessKeyId: "AKIARW6H7ZMAJCZQF2PH",
-  secretAccessKey: "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",
+  accessKeyId: "",
+  secretAccessKey: "",
 });
 const s3 = new aws.S3({
   credentials: access,
