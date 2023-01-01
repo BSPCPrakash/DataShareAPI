@@ -41,7 +41,9 @@ const transaction = mongoose.Schema({
 });
 
 const transEntry = mongoose.model("Transaction", transaction);
-
+app.get("/",async(req,res)=>{
+  res.send("API is listening").status(200);
+});
 // Request handler/endpoint
 app.post("/changeStatus",async (req,res)=>{
   try{
