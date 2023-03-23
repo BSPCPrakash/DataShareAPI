@@ -91,7 +91,7 @@ app.post("/register", async (req, res) => {
     const { username, password, email, device_id } = req.body;
     console.log(username);
     const isExistingUser = await userEntry.find({ username: username });
-    if (isExistingUser.length > =1) {
+    if (isExistingUser.length >1) {
       console.log(isExistingUser.length);
       res.status(401).send({
         status: false,
