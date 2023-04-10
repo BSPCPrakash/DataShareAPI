@@ -68,7 +68,22 @@ app.post("/login", async (req, res) => {
     console.log(username);
     const verifyData = await userEntry.find({ username: username });
     console.log(verifyData);
-    if (verifyData[0].password==password) {
+    const salt = await bcrypt.genSalt(10);
+    const encrypt_password = await bcrypt.hashSync(
+      password,
+      salt,
+      (err, hash) => {
+        console.log(hash);
+        console.log(err);
+      }
+    );
+    console.log(encrypt_password);
+    if (encrypt_password == verifyData[0].password) {
+      console.log("Checking");
+    }
+    const verification = await bcrypt.compare(password, verifyData[0].password);
+    console.log(verification);
+    if (verification == true) {
       msg = "Correct";
     } else {
       msg = "Not Correct";
@@ -98,9 +113,18 @@ app.post("/register", async (req, res) => {
         message: "User Already registered",
       });
     } else {
+       const salt = await bcrypt.genSaltSync(10);
+      const encrypt_password = await bcrypt.hashSync(
+        password,
+        salt,
+        (err, hash) => {
+          console.log(hash);
+          console.log(err);
+        }
+      );
       const data = {
         username: username,
-        password: password,
+        password: encrypt_password,
         email: email,
         device_id: device_id,
       };
